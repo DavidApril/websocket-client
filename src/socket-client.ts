@@ -1,7 +1,11 @@
-import {Manager, Socket} from "socket.io-client";
+import { Manager, Socket } from "socket.io-client";
 
-export const connectToServer = () => {
-  const manager = new Manager("http://localhost:3001/socket.io/socket.io.js");
+export const connectToServer = (jwtToken: string) => {
+  const manager = new Manager("http://localhost:3001/socket.io/socket.io.js", {
+    extraHeaders: {
+      authentication: jwtToken,
+    },
+  });
   const socket = manager.socket("/");
   addListeners(socket);
 };

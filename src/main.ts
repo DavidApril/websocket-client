@@ -1,10 +1,16 @@
-import './style.css';
-import { connectToServer } from './socket-client.ts';
+import "./style.css";
+import { connectToServer } from "./socket-client.ts";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
   <div>
-  
-   <h1>Websocket - Client</h1>
+
+   <h2>Websocket - Client</h2>
+
+   <input type="text" id="jwtToken" placeholder="Json web token" />
+   <button id="btn-connect">Connect</button>
+
+   <br/>
+
    <span id="server-status">Offline</span>   
    <ui id="clients-ul"></ui>
    
@@ -18,4 +24,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   </div>
 `;
 
-connectToServer();
+const inputJwtToken = document.querySelector("#jwtToken") as HTMLInputElement;
+const btnConnect = document.querySelector("#btn-connect") as HTMLButtonElement;
+
+btnConnect.addEventListener("click", () => {
+  if (inputJwtToken.value.trim().length === 0) return alert("JWT is required");
+  connectToServer(inputJwtToken.value.trim());
+});
