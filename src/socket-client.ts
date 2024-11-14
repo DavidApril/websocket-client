@@ -1,16 +1,17 @@
 import { Manager, Socket } from "socket.io-client";
-
+let socket: Socket;
 export const connectToServer = (jwtToken: string) => {
   const manager = new Manager("http://localhost:3001/socket.io/socket.io.js", {
     extraHeaders: {
       authentication: jwtToken,
     },
   });
-  const socket = manager.socket("/");
-  addListeners(socket);
+  socket?.removeAllListeners();
+  socket = manager.socket("/");
+  addListeners();
 };
 
-const addListeners = (socket: Socket) => {
+const addListeners = () => {
   const clientsUl = document.querySelector("#clients-ul") as HTMLUListElement;
   const messageForm = document.querySelector(
     "#message-form"
